@@ -6,26 +6,32 @@ require("dotenv").config();
 
 const AuthRoute =  express.Router();
  
-AuthRoute.post("/registration", async(req, res) => {
+AuthRoute.post("/signup", async(req, res) => {
     const { email, password} = req.body;
   
     
     try {
       const existuser = await UserModel.findOne({ email });
-  console.log(existuser);
+   
       if (existuser) {
         return res.status(401).json({ error: "User Already Exist" });
       }
-      
+
+       let newuser = {email, password}
+
+       if(email.includes("creator")){
+        newuser.role = "CREATOR"
+        console.log("yes");
+       }
     
-      const user = new UserModel({ email, password});
-      await user.save();
-  
+       const user = new UserModel(newuser);
+      await user.save();  
       res.status(200).json({ message: "Singup Successfull"});
     } catch (error) {
       res.status(500).json({ error: "error signup" });
     }
   });
+
 
 AuthRoute.post("/login",  async (req, res) => {
     const { email, password } = req.body;
