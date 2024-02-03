@@ -37,8 +37,9 @@ const authenticateToken = (req, res, next) => {
   // Create a Post
   PostRoute.post('/posts', authenticateToken, async (req, res) => {
     const { title, body, active, latitude, longitude } = req.body;
+
     const user_id = req.user.user._id;
-     console.log(user_id);
+     
     const post = new Post({
       title,
       body,
@@ -62,7 +63,7 @@ const authenticateToken = (req, res, next) => {
   // Read a Post
   PostRoute.get('/posts/:post_id', authenticateToken, async (req, res) => {
     const user_id = req.user.user._id;
-  
+  console.log(user_id);
     try {
       const post = await Post.findOne({ _id: req.params.post_id, created_by: user_id });
       if (post) {
@@ -136,8 +137,8 @@ PostRoute.get('/posts/location', async (req, res) => {
     
   
     try {
-      const activeCount = await Post.countDocuments({ created_by: user_id, active: true });
-      const inactiveCount = await Post.countDocuments({ created_by: user_id, active: false });
+      const activeCount = await Post.countDocuments({ active: true });
+      const inactiveCount = await Post.countDocuments({ active: false });
   
       res.status(200).json({ activeCount,inactiveCount });
     } catch (error) {

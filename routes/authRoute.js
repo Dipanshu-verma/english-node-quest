@@ -9,7 +9,7 @@ const AuthRoute =  express.Router();
 AuthRoute.post("/registration", async(req, res) => {
     const { email, password} = req.body;
   
-    console.log(email,password);
+    
     try {
       const existuser = await UserModel.findOne({ email });
   console.log(existuser);
