@@ -21,6 +21,19 @@ const authenticateToken = (req, res, next) => {
   };
 
 
+  PostRoute.get('/posts', async (req, res) => {
+     
+    try {
+      const Posts = await Post.find();
+      res.status(201).json({Posts});
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
+
+
+
   // Create a Post
   PostRoute.post('/posts', authenticateToken, async (req, res) => {
     const { title, body, active, latitude, longitude } = req.body;
