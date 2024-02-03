@@ -55,9 +55,9 @@ bookRouter.get("/books", async (req, res) => {
     let sortoption = {};
 
     if (sort === "asc") {
-      sortoption.price = 1;
+      sortoption.createdAt = 1;
     } else if (sort === "desc") {
-      sortoption.price = -1;
+      sortoption.createdAt = -1;
     }
 
     const books = await BookModel.find(query).sort(sortoption);

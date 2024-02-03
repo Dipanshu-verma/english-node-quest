@@ -21,7 +21,7 @@ AuthRoute.post("/signup", async(req, res) => {
 
        if(email.includes("creator")){
         newuser.role = "CREATOR"
-        console.log("yes");
+        
        }
     
        const user = new UserModel(newuser);
