@@ -33,7 +33,8 @@ const checkrole = (req, res, next) => {
 
 
 bookRouter.get("/books", async (req, res) => {
-  const { old, latest, sort, language } = req.query;
+  const { old, latest, sort, language,page,limit } = req.query;
+
   try {
     const query = {};
     if (language) {
@@ -60,13 +61,16 @@ bookRouter.get("/books", async (req, res) => {
       sortoption.createdAt = -1;
     }
 
-    const books = await BookModel.find(query).sort(sortoption);
+    const books = await BookModel.find(query).sort(sortoption).skip((page-1)*limit).limit(limit);
     res.status(200).json(books);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+ 
+
 
 bookRouter.post("/books", authanticatuser, checkrole, async (req, res) => {
   try {
@@ -78,6 +82,7 @@ bookRouter.post("/books", authanticatuser, checkrole, async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 bookRouter.put(
   "/books/update/:id",
