@@ -62,7 +62,10 @@ bookRouter.get("/books", async (req, res) => {
     }
 
     const books = await BookModel.find(query).sort(sortoption).skip((page-1)*limit).limit(limit);
-    res.status(200).json(books);
+    const totalDocuments =  await BookModel.countDocuments(query)
+    const totalPage=  Math.ceil(totalDocuments/limit)
+    
+    res.status(200).json({books,totalPage});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
