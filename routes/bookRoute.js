@@ -32,7 +32,7 @@ const checkrole = (req, res, next) => {
 
 
 
-bookRouter.get("/books", async (req, res) => {
+bookRouter.get("/books",authanticatuser, async (req, res) => {
   const { old, latest, sort, language,page,limit } = req.query;
 
   try {
