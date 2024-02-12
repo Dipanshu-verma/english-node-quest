@@ -33,12 +33,15 @@ const checkrole = (req, res, next) => {
 
 
 bookRouter.get("/books",authanticatuser, async (req, res) => {
-  const { old, latest, sort, language,page,limit } = req.query;
+  const { old, latest, sort, language,page,limit,book} = req.query;
 
   try {
     const query = {};
     if (language) {
       query.language = { $regex: language, $options: "i" };
+    }
+    if(book==="mybook"){
+      query.userid = req.user._id;
     }
 
     if (old) {
@@ -53,11 +56,10 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
       query.createdAt = { $gt: tenMinutesAgo };
     }
 
-    let sortoption = {};
-
-    if (sort === "asc") {
-      sortoption.createdAt = 1;
-    } else if (sort === "desc") {
+    let sortoption = {createdAt: 1};
+ 
+      
+   if (sort === "desc") {
       sortoption.createdAt = -1;
     }
 
