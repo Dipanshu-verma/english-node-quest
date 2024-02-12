@@ -33,7 +33,7 @@ const checkrole = (req, res, next) => {
 
 
 bookRouter.get("/books",authanticatuser, async (req, res) => {
-  const { old, latest, sort, language,page,limit,book} = req.query;
+  const { old, latest, sort, language,page,limit,book,search} = req.query;
 
   try {
     const query = {};
@@ -48,6 +48,12 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
       const tenMinutesAgo = new Date();
       tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
       query.createdAt = { $lte: tenMinutesAgo };
+    }
+    if(search){
+      query.$or={
+        title:{$regex:search,$options:"i"},
+        author:{$regex:search,$options:"i"}
+      }
     }
 
     if (latest) {
