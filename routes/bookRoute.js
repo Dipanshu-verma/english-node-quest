@@ -56,11 +56,11 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
       query.createdAt = { $gt: tenMinutesAgo };
     }
 
-    let sortoption = {createdAt: 1};
+    let sortoption = {createdAt: -1};
  
       
-   if (sort === "desc") {
-      sortoption.createdAt = -1;
+   if (sort === "asc") {
+      sortoption.createdAt = 1;
     }
 
     const books = await BookModel.find(query).sort(sortoption).skip((page-1)*limit).limit(limit);
