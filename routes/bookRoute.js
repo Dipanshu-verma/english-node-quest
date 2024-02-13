@@ -41,7 +41,7 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
       query.language = { $regex: language, $options: "i" };
     }
     if(book==="mybook"){
-      query.userid = req.user._id;
+      query.userId = req.user._id;
     }
 
     if (old) {
