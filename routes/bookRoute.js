@@ -49,13 +49,14 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
       tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
       query.createdAt = { $lte: tenMinutesAgo };
     }
-    if(search){
-      query.$or={
-        title:{$regex:search,$options:"i"},
-        author:{$regex:search,$options:"i"}
-      }
+   
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { author: { $regex: search, $options: "i" } }
+      ];
     }
-
+    
     if (latest) {
       const tenMinutesAgo = new Date();
       tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
