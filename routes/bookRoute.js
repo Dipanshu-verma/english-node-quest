@@ -40,6 +40,7 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
     if (language) {
       query.language = { $regex: language, $options: "i" };
     }
+    
     if(book==="mybook"){
       query.userId = req.user._id;
     }
@@ -56,7 +57,7 @@ bookRouter.get("/books",authanticatuser, async (req, res) => {
         { author: { $regex: search, $options: "i" } }
       ];
     }
-    
+
     if (latest) {
       const tenMinutesAgo = new Date();
       tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
